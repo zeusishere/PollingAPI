@@ -26,9 +26,12 @@ module.exports.addVote =async (req ,res) =>
     {
         // increment the votes for the option
     let updatedOption = await  Options.findByIdAndUpdate(req.params.id ,{ $inc : {votes:1 } },{new:true} );
+    if(updatedOption )
     return res.json({message:"successfully voted !",
         body:updatedOption         
 })
+else
+throw "no such option" ;
     } catch(err)
     {
         return res.json({message:"There was some error while voting !"}) ;

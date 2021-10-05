@@ -62,5 +62,5 @@ empty body .
 https://dry-harbor-42942.herokuapp.com/options/<option_id>/delete
 
 6. cast a vote in favour of a question (get request)
-https://dry-harbor-42942.herokuapp.com/options//<option_id>/add_vote
+https://dry-harbor-42942.herokuapp.com/options/<option_id>/add_vote
 body empty
