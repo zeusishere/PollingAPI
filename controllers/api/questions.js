@@ -7,7 +7,8 @@ module.exports.viewQuestion = async (req, res) => {
         let question = await Questions.findById(req.params.id);
         if (question) {
             question=await question.populate({path:"options"}) ;
-            return res.json((question));
+            return res.json({message:"Question found",
+                question:question});
         }
     }
     catch (err) {
@@ -16,7 +17,6 @@ module.exports.viewQuestion = async (req, res) => {
 }
 // action to create a new question
 module.exports.createQuestion = async (req, res) => {
-    console.log(req.hostname) ;
     try {
         if (req.body.title) {
             let question = await Questions.create({ title: req.body.title });
@@ -27,8 +27,7 @@ module.exports.createQuestion = async (req, res) => {
         }
     }
     catch (err) {
-        // console.log("err is :", err)
-        return res.json({ message: "Error creating a new question ! question title cannot be empty " })
+        return res.json({ message: "Error creating a new question ! " })
     }
 }
 //  action to add a new option to a given question
@@ -41,7 +40,6 @@ module.exports.createOption = async (req, res) => {
             return res.json({message:"cannot add empty option"})
         }
         let question = await Questions.findById(req.params.id);
-        console.log(question) ;
         if (question )
         {
             let createdOption = await new Options({text:req.body.option , question:req.params.id }) ;
@@ -50,17 +48,13 @@ module.exports.createOption = async (req, res) => {
             createdOption.save();
             question.options.push(createdOption._id);
             question.save();
-            let body = await question.populate({path:"options"}) ;
-            console.log("body is " ,createdOption)
             res.json({
-                "message": "successfully added option",
-                body: body
+                "message": "successfully added option"
             });
         }
        
     }
     catch (err) {
-        console.log(err)
         return res.json({ message: "Something went wrong ! cannot add option" });
     }
 }
@@ -68,15 +62,12 @@ module.exports.createOption = async (req, res) => {
 module.exports.deleteQuestion =async  (req, res) =>
 {
         // the fn below deletes question if found and return the count of deleted question
-        console.log(typeof (req.params.id))
         let question = await Questions.findByIdAndDelete( req.params.id );
-        console.log(question) ;
         if(question  ) 
         {
           await Options.remove({question:req.params.id}) ;
          return res.json({
-            "message": "successfully deleted question",
-            body: question
+            "message": "successfully deleted question"
         });
         }
     
