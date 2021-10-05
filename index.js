@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express() ;
-let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 8000;
+let Port = process.env.PORT;
+if (Port == null || Port == "") {
+  Port = 8000;
 }
 const db= require("./config/mongoose")
 app.use(express.urlencoded({extended:true}) );
