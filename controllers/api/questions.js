@@ -1,14 +1,20 @@
 const Questions = require("../../models/questions");
 const Options = require("../../models/option") ;
+const e = require("express");
 
 // action to view a question
 module.exports.viewQuestion = async (req, res) => {
     try {
         let question = await Questions.findById(req.params.id);
+        console.log(question)
         if (question) {
             question=await question.populate({path:"options"}) ;
             return res.json({message:"Question found",
                 question:question});
+        }
+        else
+        {
+            throw "question not found" ;
         }
     }
     catch (err) {
