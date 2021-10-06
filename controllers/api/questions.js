@@ -31,6 +31,9 @@ module.exports.createQuestion = async (req, res) => {
                 data: question
             });
         }
+        else{
+            throw "title cannot be empty" ;
+        }
     }
     catch (err) {
         return res.json({ message: "Error creating a new question ! " })
@@ -57,6 +60,11 @@ module.exports.createOption = async (req, res) => {
             res.json({
                 "message": "successfully added option"
             });
+        }
+       
+        else 
+        {
+            throw "question does not exist error"
         }
        
     }
